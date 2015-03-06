@@ -1,0 +1,41 @@
+body{
+	background: url("../img/jungle.jpg");
+}
+
+#main{
+	margin-left: 26%;
+	width: 690px;
+	height: 690px;
+	border: solid black 1px;
+	background-color: #7c7c7c;
+}
+
+#info{
+	width: 150px;
+	height: 150px;
+	border: 1px solid black;
+	float: left;
+	position: relative;
+	left: 215px;
+	background-color: #7c7c7c;
+}
+
+.box{
+	width: 150px;
+	height: 150px;
+	border: 1px solid black;
+	float: left;
+	margin: 10px;
+}
+
+img{
+	width: 150px;
+	height: 150px;
+}
+
+#array{
+	float: left;
+	border: 1px solid black;
+	width: 150px;
+	height: 300px;
+}
