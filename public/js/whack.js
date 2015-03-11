@@ -125,16 +125,31 @@
 		// console.log(nums[rand]);
 		// console.log(raptor)
 		// console.log(htmlStr);
-		timeouts[nums[rand]] = setTimeout(function(){
-					lives --;
-					$(nums[rand]).attr("value", 0);
-					nums.push('#' + $(nums[rand]).attr("id"));
-					$(nums[rand]).html("");
-				}, raptor.speed);
+		var timeoutBox = nums[rand];
+		setTheTimeout(timeoutBox);
+		// timeouts[nums[rand]] = setTimeout(function(){
+		// 			console.log(timeoutBox);
+		// 			lives --;
+		// 			$(timeoutBox).attr("value", 0);
+		// 			nums.push('#' + $(timeoutBox).attr("id"));
+		// 			$(timeoutBox).html("<p>Some stuff</p>");
+		// 		}, raptor.speed);
+		// console.log('Setting: ' + timeouts[nums[rand]]);
 		nums.splice(rand, 1);
 		// return $(nums[rand]);
 		// console.log(nums);
 		
+	}
+
+	var setTheTimeout = function(timeoutBox){
+		console.log(timeoutBox);
+		var speed = 2000;
+		timeouts[timeoutBox] = setTimeout(function(){
+					lives --;
+					$(timeoutBox).attr("value", 0);
+					nums.push('#' + $(timeoutBox).attr("id"));
+					$(timeoutBox).html("");
+				}, speed);
 	}
 
 	// If lives are zero, or every box has a raptor, you lose
@@ -203,7 +218,7 @@
 			$("#score").html(score);
 			
 			// console.log('#' + $(this).attr("id"));
-			// console.log(timeouts['#' + $(this).attr("id")]);
+			console.log('Clearing: ' + timeouts['#' + $(this).attr("id")]);
 			clearTimeout(timeouts['#' + $(this).attr("id")]);
 			// console.log("cleared:");
 			// console.log(timeouts['#' + $(this).attr("id")]);
