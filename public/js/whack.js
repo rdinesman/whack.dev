@@ -21,15 +21,15 @@
 
 		var raptor3 = {
 			"name" : "raptor3",
-			"spd" : "500",
+			"spd" : "700",
 			"img" : "/img/raptor3.png",
 			"value" : "3"
 		}
 
 	// Arrays that hold all the raptors and the list of empty boxes
 	var raptors = [raptor1, raptor2, raptor3];
-	var nums = ["#box1", "#box2", "#box3", "#box4", "#box5", "#box6", "#box7", "#box8", "#box9", "#box10", "#box11", "#box12", "#box13", "#box14", "#box15","#box16"];
-	var timeouts = ["#box1", "#box2", "#box3", "#box4", "#box5", "#box6", "#box7", "#box8", "#box9", "#box10", "#box11", "#box12", "#box13", "#box14", "#box15","#box16"];
+	var emptyBoxes = ["#raptor1", "#raptor2", "#raptor3", "#raptor4", "#raptor5", "#raptor6", "#raptor7", "#raptor8", "#raptor9", "#raptor10", "#raptor11", "#raptor12", "#raptor13", "#raptor14", "#raptor15","#raptor16"];
+	var timeouts = ["#raptor1", "#raptor2", "#raptor3", "#raptor4", "#raptor5", "#raptor6", "#raptor7", "#raptor8", "#raptor9", "#raptor10", "#raptor11", "#raptor12", "#raptor13", "#raptor14", "#raptor15","#raptor16"];
 
 	// Default game variables
 	var score = 0;
@@ -45,36 +45,13 @@
 				$("#time").html(++time);
 				var raptor = getRaptor();
 				var box = displayRaptor(raptor);
-
-				// timeouts["#" + $(box).attr("id")] = setTimeout(function(){
-				// 	lives --;
-				// 	$(box).attr("value", 0);
-				// 	nums.push('#' + $(box).attr("id"));
-				// 	$(box).html("");
-				// }, raptor.speed);
-
-				// $(".box").off();
-				// $(".box").on("click", function(event){
-					
-				// 	if ($(this).html() != ""){
-				// 		//Add the box back to the array, and delete the raptor
-				// 		nums.push('#' + $(this).attr("id"));
-				// 		$(this).html("");
-
-				// 		//Add the score the score, set the box's value back to zero
-				// 		score += parseInt($(this).attr("value"));
-				// 		$(this).attr("value", 0);
-				// 		$("#score").html(score);
-						
-				// 		console.log('#' + $(this).attr("id"));
-				// 		console.log(timeouts['#' + $(this).attr("id")]);
-				// 		clearTimeout(timeouts['#' + $(this).attr("id")]);
-				// 		console.log("cleared:");
-				// 		console.log(timeouts['#' + $(this).attr("id")]);
-				// 	}
-				// });
-				
-				
+				if (time > 60){
+					displayRaptor(raptor);
+				}
+				else if (time > 120){
+					displayRaptor(raptor);
+					displayRaptor(raptor);
+				}
 
 				//Updates the life counter
 				var liveImg = "";
@@ -113,55 +90,36 @@
 	// Given a raptor, displays the raptor in a random box that
 	// doesn't already have a raptor in it
 	var displayRaptor = function(raptor){
-		// console.log("Starting displayRaptor");
 		var good = false;
 		var box;
-		var rand = Math.floor(Math.random() *nums.length);
+		var rand = Math.floor(Math.random() *emptyBoxes.length);
 		var htmlStr = "<img class = 'raptor' src = '" + raptor.img + "'>";
-		$(nums[rand]).attr("value", raptor.value);
-		$(nums[rand]).html(htmlStr);
-		console.log("Raptor popping up in " + nums[rand]);
-		// console.log(rand);
-		// console.log(nums[rand]);
-		// console.log(raptor)
-		// console.log(htmlStr);
-		var timeoutBox = nums[rand];
-		setTheTimeout(timeoutBox);
-		// timeouts[nums[rand]] = setTimeout(function(){
-		// 			console.log(timeoutBox);
-		// 			lives --;
-		// 			$(timeoutBox).attr("value", 0);
-		// 			nums.push('#' + $(timeoutBox).attr("id"));
-		// 			$(timeoutBox).html("<p>Some stuff</p>");
-		// 		}, raptor.speed);
-		// console.log('Setting: ' + timeouts[nums[rand]]);
-		nums.splice(rand, 1);
-		// return $(nums[rand]);
-		// console.log(nums);
+		$(emptyBoxes[rand]).attr("value", raptor.value);
+		$(emptyBoxes[rand]).html(htmlStr);
+		console.log("Raptor popping up in " + emptyBoxes[rand]);
+		var timeoutBox = emptyBoxes[rand];
+		setTheTimeout(timeoutBox, raptor);
+		emptyBoxes.splice(rand, 1);
 		
 	}
 
-	var setTheTimeout = function(timeoutBox){
-		console.log(timeoutBox);
-		var speed = 2000;
+	var setTheTimeout = function(timeoutBox, raptor){
 		timeouts[timeoutBox] = setTimeout(function(){
 					lives --;
 					$(timeoutBox).attr("value", 0);
-					nums.push('#' + $(timeoutBox).attr("id"));
+					emptyBoxes.push('#' + $(timeoutBox).attr("id"));
 					$(timeoutBox).html("");
-				}, speed);
+				}, raptor.spd);
 	}
 
 	// If lives are zero, or every box has a raptor, you lose
 	var checkLose = function(){
 		if (lives == 0){
-			// console.log("Lives are zero. Game over.")
 			alert("You were mauled to death!");
 			play = false;
 			return true;
 		}
-		else if (nums.length == 0){
-			// console.log("All boxes full, game over.")
+		else if (emptyBoxes.length == 0){
 			alert("You were overrun by raptors and eaten!");
 			play = false;
 			return true;
@@ -170,7 +128,7 @@
 
 	// Sets all the game variables to default, and clears the baord
 	var clear = function(){
-		nums = ["#box1", "#box2", "#box3", "#box4", "#box5", "#box6", "#box7", "#box8", "#box9", "#box10", "#box11", "#box12", "#box13", "#box14", "#box15","#box16"];
+		emptyBoxes = ["#raptor1", "#raptor2", "#raptor3", "#raptor4", "#raptor5", "#raptor6", "#raptor7", "#raptor8", "#raptor9", "#raptor10", "#raptor11", "#raptor12", "#raptor13", "#raptor14", "#raptor15","#raptor16"];
 		score = 0;
 		time = 0;
 		lives = 3;
@@ -179,7 +137,7 @@
 		$("#lives").html("X X X");
 		$("#time").html(time);
 		for (var i = 1; i < 17; i++){
-			$("#box"+i).html("");
+			$("#raptor"+i).html("");
 		}
 	}
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
@@ -188,9 +146,9 @@
 	for (var i = 1; i < 17; i++)
 	{
 		htmlStr +='<div class = "box" id = box' + i + ' value = 0>'+
-					// '<div class = "grate" id = "grate'+ i +'">'+
+					'<div class = "raptor" id = "raptor'+ i +'">'+
 
-					// '</div>'+
+					'</div>'+
 				'</div>';
 		
 	}
@@ -205,11 +163,11 @@
 		}
 	})
 
-	$(".box").on("click", function(event){
+	$(".raptor").on("click", function(event){
 					
 		if ($(this).html() != ""){
 			//Add the box back to the array, and delete the raptor
-			nums.push('#' + $(this).attr("id"));
+			emptyBoxes.push('#' + $(this).attr("id"));
 			$(this).html("");
 
 			//Add the score the score, set the box's value back to zero
@@ -217,11 +175,8 @@
 			$(this).attr("value", 0);
 			$("#score").html(score);
 			
-			// console.log('#' + $(this).attr("id"));
 			console.log('Clearing: ' + timeouts['#' + $(this).attr("id")]);
 			clearTimeout(timeouts['#' + $(this).attr("id")]);
-			// console.log("cleared:");
-			// console.log(timeouts['#' + $(this).attr("id")]);
 		}
 	});
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
